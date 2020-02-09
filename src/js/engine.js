@@ -3,9 +3,9 @@
  */
 
 export default class Engine {
-  constructor(update, draw) {
+  constructor(render, update) {
+    this.render = render;
     this.update = update;
-    this.draw = draw;
     this.lastRender = 0;
     this.FPS = 100;
   }
@@ -16,8 +16,8 @@ export default class Engine {
     this.lastRender = timestamp;
 
     // Influencing state changes with delta will create a consistent game experience regardless of FPS.
+    this.render();
     this.update(delta);
-    this.draw();
-    requestAnimationFrame(this.loop);
+    window.requestAnimationFrame(this.loop);
   };
 }
