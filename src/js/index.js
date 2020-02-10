@@ -13,12 +13,12 @@ import Game from './game';
 /* MAIN GAME FUNCTIONS */
 
 // Listens for any user input and manipulates the state of player.
-let keyListener = event => {
+const KEYLISTENER = event => {
   controller.directionHandler(event.type, event.keyCode);
 };
 
 // Renders out the world and player on every new frame within Engine loop method.
-let render = () => {
+const RENDER = () => {
   display.fill(game.world.background_color);
   display.draw(
     game.world.player.x,
@@ -30,7 +30,7 @@ let render = () => {
 };
 
 // Syncs up the Player with the world state and potentially new player state on every new frame.
-let update = () => {
+const UPDATE = () => {
   if (controller.active.up && game.world.player.jumping == false) {
     game.world.player.jump();
   }
@@ -50,11 +50,11 @@ let update = () => {
 
 const display = new Display(document.querySelector('canvas'));
 const controller = new Controller();
-const engine = new Engine(render, update);
+const engine = new Engine(RENDER, UPDATE);
 const game = new Game();
 
 /* INIT */
 
-window.addEventListener('keydown', keyListener);
-window.addEventListener('keyup', keyListener);
+window.addEventListener('keydown', KEYLISTENER);
+window.addEventListener('keyup', KEYLISTENER);
 window.requestAnimationFrame(engine.loop);
