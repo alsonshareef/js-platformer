@@ -4,14 +4,42 @@ export default class Game {
       height: 180,
       width: 320,
       background_color: '#202020',
-      player: new Player()
+      player: new Player(),
+      gravity: 1.5,
+      friction: 0.9,
+      handleCollision: player => {
+        // if character is falling below floor line
+        if (player.y > this.world.height - 32) {
+          player.jumping = false;
+          player.y = this.world.height - 32;
+          player.y_velocity = 0;
+        }
+
+        // if character is going off the left of the screen
+        if (player.x < 0) {
+          player.x = 0;
+        }
+
+        // if character is going off the right of the screen
+        if (player.x + player.width > this.world.width) {
+          player.x = this.world.width - player.width;
+          player.x_velocity = 0;
+        }
+      },
+      update: function() {
+        this.player.y_velocity += this.gravity; // gravity
+        this.player.x_velocity *= this.friction; // friction
+        this.player.y_velocity *= this.friction; // friction
+        this.player.update();
+        this.handleCollision(this.player);
+      }
     };
   }
 }
 
 class Player {
   constructor() {
-    this.color = 'ff0000';
+    this.color = 'red';
     this.height = 32;
     this.width = 32;
     this.jumping = true;
@@ -21,14 +49,21 @@ class Player {
     this.y_velocity = 0;
   }
 
-  moveLeft = () => {};
-
-  moveRight = () => {};
-
-  jump = () => {
-    this.y_velocity -= 20;
-    this.jumping = true;
+  moveLeft = () => {
+    this.x_velocity -= 0.5;
   };
 
-  update = () => {};
+  moveRight = () => {
+    this.x_velocity += 0.5;
+  };
+
+  jump = () => {
+    this.jumping = true;
+    this.y_velocity -= 20;
+  };
+
+  update = () => {
+    this.x += this.x_velocity;
+    this.y += this.y_velocity;
+  };
 }
