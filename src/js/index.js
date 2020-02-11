@@ -18,6 +18,23 @@ const KEYLISTENER = event => {
   controller.directionHandler(event.type, event.keyCode);
 };
 
+// Resize canvas based on browser viewport dimensions.
+const RESIZE = () => {
+  // Store updated canvas dimensions.
+  let worldSize = display.resize(
+    window.innerWidth - 32,
+    window.innerHeight - 32,
+    game.world.height / game.world.width
+  );
+
+  // Update the game world dimensions in proportion to canvas dimensions.
+  game.world.updateSize(worldSize.width, worldSize.height);
+
+  // Update Player class properties in proportion to canvas dimension changes. (New height can be passed instead of new width as well.)
+  game.world.player.updateSize(worldSize.width);
+  game.world.player.updateJumpHeight(worldSize.width);
+};
+
 // Renders out the world and player on every new frame within Engine loop method.
 const RENDER = () => {
   display.fill(game.world.background_color);
@@ -32,7 +49,7 @@ const RENDER = () => {
 
 // Syncs up the Player with the world state and potentially new player state on every new frame.
 const UPDATE = () => {
-  if (controller.active.up && game.world.player.jumping == false) {
+  if (controller.active.up && game.world.player.jumping === false) {
     game.world.player.jump();
   }
 
@@ -58,4 +75,8 @@ const game = new Game();
 
 window.addEventListener('keydown', KEYLISTENER);
 window.addEventListener('keyup', KEYLISTENER);
+
+RESIZE();
+window.addEventListener('resize', RESIZE);
+
 window.requestAnimationFrame(engine.loop);
