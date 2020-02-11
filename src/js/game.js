@@ -15,9 +15,9 @@ export default class Game {
       friction: 0.9,
       handleCollision: player => {
         // if character is falling below floor line
-        if (player.y > this.world.height - 32) {
+        if (player.y > this.world.height - this.world.player.height) {
           player.jumping = false;
-          player.y = this.world.height - 32;
+          player.y = this.world.height - this.world.player.height;
           player.y_velocity = 0;
         }
 
@@ -29,9 +29,13 @@ export default class Game {
         // if character is going off the right of the screen
         if (player.x + player.width > this.world.width) {
           player.x = this.world.width - player.width;
-          player.x_velocity = 0;
         }
       },
+      updateSize: (width, height) => {
+        this.world.width = width;
+        this.world.height = height;
+      },
+
       update: function() {
         this.player.y_velocity += this.gravity; // gravity
         this.player.x_velocity *= this.friction; // friction
@@ -48,7 +52,8 @@ class Player {
     this.color = 'red';
     this.height = 32;
     this.width = 32;
-    this.jumping = true;
+    this.jumping = false;
+    this.jumpHeight = -30;
     this.x = 144; // center of the canvas
     this.y = 0;
     this.x_velocity = 0;
@@ -65,11 +70,20 @@ class Player {
 
   jump = () => {
     this.jumping = true;
-    this.y_velocity -= 20;
+    this.y_velocity = this.jumpHeight;
   };
 
   update = () => {
     this.x += this.x_velocity;
     this.y += this.y_velocity;
+  };
+
+  updateSize = width => {
+    this.width = width / 32;
+    this.height = width / 32;
+  };
+
+  updateJumpHeight = width => {
+    this.jumpHeight = -width / 20;
   };
 }
