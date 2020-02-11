@@ -1,5 +1,5 @@
 /**
- * This file is responsible for storing all logic related to user input.
+ * This file is responsible for storing all data and methods related to user input state.
  */
 
 export default class Controller {

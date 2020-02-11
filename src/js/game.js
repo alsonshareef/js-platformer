@@ -1,3 +1,9 @@
+/**
+ * This file stores the Game class which is responsible for storing data and methods related
+ * to world of the game and it's state, as well as the Player class which is responsible for
+ * storing data and methods related to the player object drawn to the canvas and it's state.
+ */
+
 export default class Game {
   constructor() {
     this.world = {

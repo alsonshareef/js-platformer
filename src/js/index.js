@@ -1,6 +1,7 @@
 /**
- * This file instantiates all logic classes, combines their logic within the Engine class
- * which will then run to start the game.
+ * This file combines all the classes and their public methods into 'main game functions'
+ * for modularity purposes and passes them to the Engine class instance which will run
+ * these functions within the game loop to run the game.
  */
 
 import '../styles/index.css';

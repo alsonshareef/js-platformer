@@ -1,3 +1,8 @@
+/**
+ * This file stores the Display class which is responsible for storing all data and
+ * methods which handle the canvas that the game is drawn onto.
+ */
+
 export default class Display {
   constructor(canvas) {
     this.ctx = canvas.getContext('2d');
