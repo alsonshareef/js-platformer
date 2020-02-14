@@ -21,18 +21,18 @@ const KEYLISTENER = event => {
 // Resize canvas based on browser viewport dimensions.
 const RESIZE = () => {
   // Store updated canvas dimensions.
-  let worldSize = display.resize(
+  let newDimensions = display.resize(
     window.innerWidth - 32,
     window.innerHeight - 32,
-    game.world.height / game.world.width
+    0.5
   );
 
   // Update the game world dimensions in proportion to canvas dimensions.
-  game.world.updateSize(worldSize.width, worldSize.height);
+  game.world.updateSize(newDimensions.width, newDimensions.height);
 
   // Update Player class properties in proportion to canvas dimension changes. (New height can be passed instead of new width as well.)
-  game.world.player.updateSize(worldSize.width);
-  game.world.player.updateJumpHeight(worldSize.width);
+  game.world.player.updateSize(newDimensions.width);
+  // game.world.player.updateJumpHeight(worldSize.width);
 };
 
 // Renders out the world and player on every new frame within Engine loop method.
