@@ -13,6 +13,7 @@ export default class Game {
       player: new Player(),
       gravity: 1.5,
       friction: 0.9,
+
       handleCollision: player => {
         // if character is falling below floor line
         if (player.y > this.world.height - this.world.player.height) {
@@ -31,6 +32,7 @@ export default class Game {
           player.x = this.world.width - player.width;
         }
       },
+
       updateSize: (width, height) => {
         this.world.width = width;
         this.world.height = height;
@@ -78,12 +80,13 @@ class Player {
     this.y += this.y_velocity;
   };
 
-  updateSize = width => {
-    this.width = width / 32;
-    this.height = width / 32;
+  updateSize = canvasWidth => {
+    this.width = canvasWidth / 32;
+    this.height = canvasWidth / 32;
   };
 
-  updateJumpHeight = width => {
-    this.jumpHeight = -width / 20;
+  updateJumpHeight = canvasHeight => {
+    this.jumpHeight = -canvasHeight / 30;
+    console.log(this.jumpHeight);
   };
 }
