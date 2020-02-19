@@ -11,6 +11,8 @@ import Controller from './controller';
 import Engine from './engine';
 import Game from './game';
 
+import levelData from '../levels.json';
+
 /* MAIN GAME FUNCTIONS */
 
 // Listens for any user input and manipulates the state of player.
@@ -22,8 +24,8 @@ const KEYLISTENER = event => {
 const RESIZE = () => {
   // Store updated canvas dimensions.
   let newDimensions = display.resize(
-    window.innerWidth - 32,
-    window.innerHeight - 32,
+    window.innerWidth,
+    window.innerHeight,
     0.5
   );
 
@@ -32,7 +34,6 @@ const RESIZE = () => {
 
   // Update Player class properties in proportion to canvas dimension changes. (New height can be passed instead of new width as well.)
   game.world.player.updateSize(newDimensions.width);
-  // game.world.player.updateJumpHeight(worldSize.width);
 };
 
 // Renders out the world and player on every new frame within Engine loop method.
@@ -66,7 +67,7 @@ const UPDATE = () => {
 
 /* CLASS INSTANCES */
 
-const display = new Display(document.querySelector('canvas'));
+const display = new Display(document.querySelector('canvas'), levelData);
 const controller = new Controller();
 const engine = new Engine(RENDER, UPDATE);
 const game = new Game();
