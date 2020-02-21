@@ -4,14 +4,13 @@
  */
 
 export default class Display {
-  constructor(canvas, levelData) {
+  constructor(canvas) {
     this.ctx = canvas.getContext('2d');
-    this.ctx.canvas.height = 180;
+    this.ctx.canvas.width = 180;
     this.ctx.canvas.width = 320;
-    this.level = new Level(levelData);
   }
 
-  // Resize game canvas on viewport size changes to dimensions with game world aspect ratio.
+  // Resize game canvas when viewport size changes to 90% of dimensions with game world aspect ratio.
   resize = (canvasWidth, canvasHeight, aspectRatio) => {
     if (canvasHeight / canvasWidth > aspectRatio) {
       // Max width scenario
@@ -39,12 +38,6 @@ export default class Display {
   draw(x, y, width, height, color) {
     // Player
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(Math.floor(x), Math.floor(y), width, height);
-  }
-}
-
-class Level {
-  constructor(levelData) {
-    this.levelData = levelData;
+    this.ctx.fillRect(Math.round(x), Math.round(y), width, height);
   }
 }
