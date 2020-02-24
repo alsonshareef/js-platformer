@@ -33,33 +33,33 @@ const RESIZE = () => {
   game.world.updateSize(newDimensions.width, newDimensions.height);
 
   // Update Player class properties in proportion to canvas dimension changes. (New height can be passed instead of new width as well.)
-  game.world.player.updateSize(newDimensions.width);
+  game.level.player[0].updateSize(newDimensions.width);
 };
 
 // Renders out the world and player on every new frame within Engine loop method.
 const RENDER = () => {
   display.fill(game.world.background_color);
   display.draw(
-    game.world.player.x,
-    game.world.player.y,
-    game.world.player.width,
-    game.world.player.height,
-    game.world.player.color
+    game.level.player[0].x,
+    game.level.player[0].y,
+    game.level.player[0].width,
+    game.level.player[0].height,
+    game.level.player[0].color
   );
 };
 
 // Syncs up the Player with the world state and potentially new player state on every new frame.
 const UPDATE = () => {
-  if (controller.active.up && game.world.player.jumping === false) {
-    game.world.player.jump();
+  if (controller.active.up && game.level.player[0].jumping === false) {
+    game.level.player[0].jump();
   }
 
   if (controller.active.left) {
-    game.world.player.moveLeft();
+    game.level.player[0].moveLeft();
   }
 
   if (controller.active.right) {
-    game.world.player.moveRight();
+    game.level.player[0].moveRight();
   }
 
   game.world.update();
@@ -67,10 +67,10 @@ const UPDATE = () => {
 
 /* CLASS INSTANCES */
 
-const display = new Display(document.querySelector('canvas'), levelData);
+const game = new Game(levelData);
+const display = new Display(document.querySelector('canvas'));
 const controller = new Controller();
 const engine = new Engine(RENDER, UPDATE);
-const game = new Game();
 
 /* INIT */
 
@@ -80,4 +80,5 @@ window.addEventListener('keyup', KEYLISTENER);
 RESIZE();
 window.addEventListener('resize', RESIZE);
 
+/* START */
 window.requestAnimationFrame(engine.loop);
