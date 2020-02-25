@@ -9,11 +9,11 @@
  */
 
 export default class Game {
-  constructor(levelData) {
+  constructor(levelData, scale) {
     this.level = new Level(levelData);
     this.world = {
-      height: 180,
-      width: 320,
+      height: this.level.height * scale,
+      width: this.level.width * scale,
       background_color: '#202020',
       gravity: 1.5,
       friction: 0.9,
@@ -86,7 +86,7 @@ class Level {
 }
 
 /**
- * DYNAMIC ELEMENT CLASSES
+ *  **** DYNAMIC ELEMENT CLASSES ****
  */
 
 class Element {
@@ -131,7 +131,7 @@ class Player {
 
   updateSize = canvasWidth => {
     this.width = canvasWidth / 32;
-    this.height = canvasWidth / 32;
+    this.height = canvasWidth / 22;
   };
 }
 
@@ -139,13 +139,17 @@ class Coin {
   constructor(position) {
     this.type = 'coin';
     this.position = position;
+    this.height = 5;
+    this.width = 5;
   }
 }
 
 class Lava {
-  constructor(position, element) {
+  constructor(position, lavaType) {
     this.type = 'lava';
     this.position = position;
-    this.element = element;
+    this.lavaType = lavaType;
+    this.height = 5;
+    this.width = 5;
   }
 }

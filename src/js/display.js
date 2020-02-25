@@ -4,29 +4,11 @@
  */
 
 export default class Display {
-  constructor(canvas) {
+  constructor(canvas, level, scale) {
     this.ctx = canvas.getContext('2d');
-    this.ctx.canvas.width = 180;
-    this.ctx.canvas.width = 320;
+    this.ctx.canvas.width = level.width * scale;
+    this.ctx.canvas.height = level.height * scale;
   }
-
-  // Resize game canvas when viewport size changes to 90% of dimensions with game world aspect ratio.
-  resize = (canvasWidth, canvasHeight, aspectRatio) => {
-    if (canvasHeight / canvasWidth > aspectRatio) {
-      // Max width scenario
-      this.ctx.canvas.height = canvasWidth * aspectRatio * 0.9;
-      this.ctx.canvas.width = canvasWidth * 0.9;
-    } else {
-      // Max height scenario
-      this.ctx.canvas.height = canvasHeight * 0.9;
-      this.ctx.canvas.width = (canvasHeight / aspectRatio) * 0.9;
-    }
-
-    return {
-      width: this.ctx.canvas.width,
-      height: this.ctx.canvas.height
-    };
-  };
 
   // Fill in the world.
   fill(color) {

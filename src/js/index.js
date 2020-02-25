@@ -13,27 +13,13 @@ import Game from './game';
 
 import levelData from '../levels.json';
 
-/* MAIN GAME FUNCTIONS */
+/* MAIN GAME FUNCTIONS + VARIABLES */
+
+const scale = 50; // Value that is used to multiply to the game/elements to increase their size.
 
 // Listens for any user input and manipulates the state of player.
 const KEYLISTENER = event => {
   controller.directionHandler(event.type, event.keyCode);
-};
-
-// Resize canvas based on browser viewport dimensions.
-const RESIZE = () => {
-  // Store updated canvas dimensions.
-  let newDimensions = display.resize(
-    window.innerWidth,
-    window.innerHeight,
-    0.5
-  );
-
-  // Update the game world dimensions in proportion to canvas dimensions.
-  game.world.updateSize(newDimensions.width, newDimensions.height);
-
-  // Update Player class properties in proportion to canvas dimension changes. (New height can be passed instead of new width as well.)
-  game.level.player[0].updateSize(newDimensions.width);
 };
 
 // Renders out the world and player on every new frame within Engine loop method.
@@ -67,8 +53,12 @@ const UPDATE = () => {
 
 /* CLASS INSTANCES */
 
-const game = new Game(levelData);
-const display = new Display(document.querySelector('canvas'));
+const game = new Game(levelData, scale);
+const display = new Display(
+  document.querySelector('canvas'),
+  game.level,
+  scale
+);
 const controller = new Controller();
 const engine = new Engine(RENDER, UPDATE);
 
@@ -76,9 +66,6 @@ const engine = new Engine(RENDER, UPDATE);
 
 window.addEventListener('keydown', KEYLISTENER);
 window.addEventListener('keyup', KEYLISTENER);
-
-RESIZE();
-window.addEventListener('resize', RESIZE);
 
 /* START */
 window.requestAnimationFrame(engine.loop);
