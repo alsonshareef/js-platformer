@@ -37,11 +37,6 @@ export default class Game {
         }
       },
 
-      updateSize: (width, height) => {
-        this.world.width = width;
-        this.world.height = height;
-      },
-
       update: () => {
         this.level.player[0].y_velocity += this.world.gravity; // gravity
         this.level.player[0].x_velocity *= this.world.friction; // friction
@@ -127,11 +122,6 @@ class Player {
   update = () => {
     this.x += this.x_velocity;
     this.y += this.y_velocity;
-  };
-
-  updateSize = canvasWidth => {
-    this.width = canvasWidth / 32;
-    this.height = canvasWidth / 22;
   };
 }
 
