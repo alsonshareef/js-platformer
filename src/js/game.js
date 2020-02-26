@@ -14,7 +14,7 @@ export default class Game {
     this.world = {
       width: this.level.width,
       height: this.level.height,
-      background_color: '#202020',
+      background_color: '#73deff',
       gravity: 1.2,
       friction: 0.9,
 
@@ -69,10 +69,10 @@ class Level {
     this.movingElements = [];
     this.stationaryElements = this.levelData.map((row, y) => {
       return row.map((element, x) => {
-        // Filter out stationary elements
+        // Filter out stationary elements by returning an object storing their type and x,y positions.
         let elementClass = this.elementTypes[element];
         if (typeof elementClass === 'string') {
-          return elementClass;
+          return { type: elementClass, x: x * this.scale, y: y * this.scale };
         }
         // Remaining moving elements are instantiated and pushed into moving elements array.
         this.movingElements.push(
@@ -102,7 +102,7 @@ class Player {
   constructor(position) {
     this.type = 'player';
     this.position = position;
-    this.color = 'red';
+    this.color = 'violet';
     this.height = 32;
     this.width = 32;
     this.jumping = false;
@@ -133,6 +133,7 @@ class Player {
 class Coin {
   constructor(position) {
     this.type = 'coin';
+    this.color = 'yellow';
     this.position = position;
     this.height = 25;
     this.width = 25;
