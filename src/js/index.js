@@ -22,8 +22,10 @@ const KEYLISTENER = event => {
 
 // Renders out the world and player on every new frame within Engine loop method.
 const RENDER = () => {
+  display.clear();
   display.fillWorld(game.world.background_color);
-  display.drawPlayer();
+  display.drawStationaryElements();
+  display.drawMovingElements();
 };
 
 // Syncs up the Player with the world state and potentially new player state on every new frame.
