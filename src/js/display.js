@@ -11,18 +11,71 @@ export default class Display {
     this.level = level;
   }
 
+  // Clear canvas before draw or redraw
+  clear() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  }
+
   // Fill in the world.
   fillWorld(color) {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
-  // Draw the player
-  drawPlayer() {
-    let { x, y } = this.level.player[0].position;
-    let { width, height } = this.level.player[0];
+  // Draw all moving elements based on their state.
+  drawMovingElements() {
+    this.level.movingElements.forEach(el => {
+      // PLAYER
+      if (el.type === 'player') {
+        this.ctx.fillStyle = el.color;
+        this.ctx.fillRect(
+          Math.round(el.position.x),
+          Math.round(el.position.y),
+          el.width,
+          el.height
+        );
+      }
 
-    this.ctx.fillStyle = this.level.player[0].color;
-    this.ctx.fillRect(Math.round(x), Math.round(y), width, height);
+      // COIN
+      if (el.type === 'coin') {
+        this.ctx.fillStyle = el.color;
+        this.ctx.fillRect(
+          el.position.x + 12.5,
+          el.position.y,
+          this.level.scale / 2,
+          this.level.scale / 2
+        );
+      }
+    });
+  }
+
+  // Draw all stationary elements that have no state.
+  drawStationaryElements() {
+    this.level.stationaryElements.forEach(row => {
+      return row.forEach(el => {
+        // console.log(el.type);
+        switch (el.type) {
+          case 'wall':
+            this.ctx.fillStyle = 'black';
+            this.ctx.fillRect(
+              Math.round(el.x),
+              Math.round(el.y),
+              this.level.scale,
+              this.level.scale
+            );
+            break;
+
+          case 'lava':
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillRect(
+              Math.round(el.x),
+              Math.round(el.y),
+              this.level.scale,
+              this.level.scale
+            );
+            break;
+        }
+      });
+    });
   }
 }
