@@ -9,31 +9,31 @@
  */
 
 export default class Game {
-  constructor(levelData, scale) {
+  constructor(levelData) {
     this.level = new Level(levelData);
     this.world = {
-      height: this.level.height * scale,
-      width: this.level.width * scale,
+      width: this.level.width,
+      height: this.level.height,
       background_color: '#202020',
-      gravity: 1.5,
+      gravity: 1.2,
       friction: 0.9,
 
       handleCollision: player => {
         // if character is falling below floor line
-        if (player.y > this.world.height - player.height) {
+        if (player.position.y > this.world.height - player.height) {
           player.jumping = false;
-          player.y = this.world.height - player.height;
+          player.position.y = this.world.height - player.height;
           player.y_velocity = 0;
         }
 
         // if character is going off the left of the screen
-        if (player.x < 0) {
-          player.x = 0;
+        if (player.position.x < 0) {
+          player.position.x = 0;
         }
 
         // if character is going off the right of the screen
-        if (player.x + player.width > this.world.width) {
-          player.x = this.world.width - player.width;
+        if (player.position.x + player.width > this.world.width) {
+          player.position.x = this.world.width - player.width;
         }
       },
 
@@ -50,9 +50,14 @@ export default class Game {
 
 class Level {
   constructor(levelData) {
+    /**
+     * this.scale controls how much the level dimensions are increased by for the purpose of ensuring
+     * the game is drawn to the canvas at a viewable size.
+     */
+    this.scale = 50;
     this.levelData = levelData.test;
-    this.height = this.levelData.length;
-    this.width = this.levelData[0].length;
+    this.height = this.levelData.length * this.scale;
+    this.width = this.levelData[0].length * this.scale;
     this.elementTypes = {
       '@': Player,
       '=': Lava,
@@ -70,7 +75,9 @@ class Level {
           return elementClass;
         }
         // Remaining moving elements are instantiated and pushed into moving elements array.
-        this.movingElements.push(new elementClass(new Element(x, y), element));
+        this.movingElements.push(
+          new elementClass(new Element(x * this.scale, y * this.scale), element)
+        );
         return 'empty';
       });
     });
@@ -100,18 +107,16 @@ class Player {
     this.width = 32;
     this.jumping = false;
     this.jumpHeight = -30;
-    this.x = 144; // center of the canvas
-    this.y = 0;
     this.x_velocity = 0;
     this.y_velocity = 0;
   }
 
   moveLeft = () => {
-    this.x_velocity -= 0.5;
+    this.x_velocity -= 0.8;
   };
 
   moveRight = () => {
-    this.x_velocity += 0.5;
+    this.x_velocity += 0.8;
   };
 
   jump = () => {
@@ -120,8 +125,8 @@ class Player {
   };
 
   update = () => {
-    this.x += this.x_velocity;
-    this.y += this.y_velocity;
+    this.position.x += this.x_velocity;
+    this.position.y += this.y_velocity;
   };
 }
 
@@ -129,8 +134,8 @@ class Coin {
   constructor(position) {
     this.type = 'coin';
     this.position = position;
-    this.height = 5;
-    this.width = 5;
+    this.height = 25;
+    this.width = 25;
   }
 }
 
@@ -139,7 +144,7 @@ class Lava {
     this.type = 'lava';
     this.position = position;
     this.lavaType = lavaType;
-    this.height = 5;
-    this.width = 5;
+    this.height = 30;
+    this.width = 30;
   }
 }
