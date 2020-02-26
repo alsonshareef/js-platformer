@@ -23,7 +23,7 @@ const KEYLISTENER = event => {
 // Renders out the world and player on every new frame within Engine loop method.
 const RENDER = () => {
   display.fillWorld(game.world.background_color);
-  display.drawPlayer(game.level.player[0].position, game.level.player[0]);
+  display.drawPlayer();
 };
 
 // Syncs up the Player with the world state and potentially new player state on every new frame.
@@ -56,3 +56,6 @@ window.addEventListener('keyup', KEYLISTENER);
 
 /* START */
 window.requestAnimationFrame(engine.loop);
+
+console.log(game);
+console.log(display);

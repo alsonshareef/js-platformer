@@ -8,6 +8,7 @@ export default class Display {
     this.ctx = canvas.getContext('2d');
     this.ctx.canvas.width = level.width;
     this.ctx.canvas.height = level.height;
+    this.level = level;
   }
 
   // Fill in the world.
@@ -17,9 +18,11 @@ export default class Display {
   }
 
   // Draw the player
-  drawPlayer({ x, y }, { width, height, color }) {
-    // Player
-    this.ctx.fillStyle = color;
+  drawPlayer() {
+    let { x, y } = this.level.player[0].position;
+    let { width, height } = this.level.player[0];
+
+    this.ctx.fillStyle = this.level.player[0].color;
     this.ctx.fillRect(Math.round(x), Math.round(y), width, height);
   }
 }
