@@ -51,7 +51,7 @@ export default class Game {
 class Level {
   constructor(levelData) {
     /**
-     * this.scale controls how much the level dimensions are increased by for the purpose of ensuring
+     * this.scale controls how much the level dimensions and element position coordinates are increased by for the purpose of ensuring
      * the game is drawn to the canvas at a viewable size.
      */
     this.scale = 50;
@@ -76,7 +76,7 @@ class Level {
         }
         // Remaining moving elements are instantiated and pushed into moving elements array.
         this.movingElements.push(
-          new elementClass(new Element(x * this.scale, y * this.scale), element)
+          new elementClass(x * this.scale, y * this.scale, element)
         );
         return 'empty';
       });
@@ -91,17 +91,10 @@ class Level {
  *  **** DYNAMIC ELEMENT CLASSES ****
  */
 
-class Element {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
 class Player {
-  constructor(position) {
+  constructor(x, y) {
     this.type = 'player';
-    this.position = position;
+    this.position = { x, y };
     this.color = 'violet';
     this.height = 32;
     this.width = 32;
@@ -131,19 +124,19 @@ class Player {
 }
 
 class Coin {
-  constructor(position) {
+  constructor(x, y) {
     this.type = 'coin';
     this.color = 'yellow';
-    this.position = position;
+    this.position = { x, y };
     this.height = 25;
     this.width = 25;
   }
 }
 
 class Lava {
-  constructor(position, lavaType) {
+  constructor(x, y, lavaType) {
     this.type = 'lava';
-    this.position = position;
+    this.position = { x, y };
     this.lavaType = lavaType;
     this.height = 30;
     this.width = 30;
