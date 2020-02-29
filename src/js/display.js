@@ -29,8 +29,8 @@ export default class Display {
       if (el.type === 'player') {
         this.ctx.fillStyle = el.color;
         this.ctx.fillRect(
-          Math.round(el.position.x),
-          Math.round(el.position.y),
+          Math.round(el.x),
+          Math.round(el.y),
           el.width,
           el.height
         );
@@ -40,8 +40,8 @@ export default class Display {
       if (el.type === 'coin') {
         this.ctx.fillStyle = el.color;
         this.ctx.fillRect(
-          el.position.x + 12.5,
-          el.position.y,
+          el.x + 12.5,
+          el.y,
           this.level.scale / 2,
           this.level.scale / 2
         );
@@ -51,31 +51,47 @@ export default class Display {
 
   // Draw all stationary elements that have no state.
   drawStationaryElements() {
-    this.level.stationaryElements.forEach(row => {
+    this.level.wallElements.forEach(row => {
       return row.forEach(el => {
-        // console.log(el.type);
-        switch (el.type) {
-          case 'wall':
-            this.ctx.fillStyle = 'black';
-            this.ctx.fillRect(
-              Math.round(el.x),
-              Math.round(el.y),
-              this.level.scale,
-              this.level.scale
-            );
-            break;
-
-          case 'lava':
-            this.ctx.fillStyle = 'red';
-            this.ctx.fillRect(
-              Math.round(el.x),
-              Math.round(el.y),
-              this.level.scale,
-              this.level.scale
-            );
-            break;
+        if (el !== undefined) {
+          this.ctx.fillStyle = 'black';
+          this.ctx.fillRect(
+            Math.round(el.x),
+            Math.round(el.y),
+            this.level.scale,
+            this.level.scale
+          );
         }
       });
     });
+
+    this.level.lavaElements.forEach(row => {
+      return row.forEach(el => {
+        if (el !== undefined) {
+          this.ctx.fillStyle = 'red';
+          this.ctx.fillRect(
+            Math.round(el.x),
+            Math.round(el.y),
+            this.level.scale,
+            this.level.scale
+          );
+        }
+      });
+    });
+
+    // this.level.stationaryElements.forEach(row => {
+    //   return row.forEach(el => {
+    //     switch (el.type) {
+    //       case 'empty':
+    //         this.ctx.strokeRect(
+    //           Math.round(el.x),
+    //           Math.round(el.y),
+    //           el.width,
+    //           el.height
+    //         );
+    //         break;
+    //     }
+    //   });
+    // });
   }
 }
